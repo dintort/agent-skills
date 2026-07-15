@@ -137,6 +137,20 @@ Every change needs a description that stands alone in version control history.
 
 **Anti-patterns:** "Fix bug," "Fix build," "Add patch," "Moving code from A to B," "Phase 1," "Add convenience functions."
 
+## Automated Execution Setup
+
+When running this review autonomously as an agent, follow these mandatory setup steps:
+
+1. **Sync remote branches:** Execute `git fetch`.
+2. **Determine BASE_BRANCH:** If the user specified a base branch (e.g., using words like "against", "vs", "compare", "base"), use that. Otherwise, use the remote's default branch (query `git symbolic-ref refs/remotes/origin/HEAD` or check if `main` or `master` exists; default to `main` if undetermined). If the current branch is the default branch then `BASE_BRANCH="review"`.
+3. **Generate Timestamp:** Determine the actual current date and time by running a shell command (do not guess) formatted as `yyyyMMdd-HHmmss`.
+4. **Generate Diff File:** Determine `DIFF_FILE` as `REVIEW-{yyyyMMdd-HHmmss}-{id-BASE_BRANCH}.diff`. Execute `git diff origin/BASE_BRANCH...HEAD --stat && git diff origin/BASE_BRANCH...HEAD > DIFF_FILE`. Read this diff file in full (using chunked reads if large).
+5. **Report File:** Create an MD file at the project root with the review results. Determine `short-feature-name` (one-two words) and name it `REVIEW-{yyyyMMdd-HHmmss}-{id-short-feature-name}.md`.
+6. **Git Exclude:** Check if `.git/info/exclude` already contains `REVIEW-*` and if not, append it:
+   - bash: `grep -qxF 'REVIEW-*' .git/info/exclude || echo 'REVIEW-*' >> .git/info/exclude`
+   - PowerShell: `if (-not (Select-String -Path ".git\info\exclude" -Pattern "^REVIEW-\*$" -Quiet)) { Add-Content -Path ".git\info\exclude" -Value "REVIEW-*" }`
+7. **Untrack:** Use `git rm --cached --ignore-unmatch` for both the diff file and the report file to untrack them in case the IDE automatically staged them.
+
 ## Review Process
 
 ### Step 1: Understand the Context
