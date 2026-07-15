@@ -139,6 +139,8 @@ Every change needs a description that stands alone in version control history.
 
 ## Automated Execution Setup
 
+**CRITICAL:** Your role is READ-ONLY code review. Do NOT modify any project source files during the review.
+
 When running this review autonomously as an agent, follow these mandatory setup steps:
 
 1. **Sync remote branches:** Execute `git fetch`.
@@ -190,14 +192,21 @@ For each file changed:
 
 ### Step 4: Categorize Findings
 
-Label every comment with its severity so the author knows what's required vs optional:
+Number each issue sequentially and format every finding consistently. Label every comment with its severity using emojis so the author knows what's required vs optional. Use the following structured format for each finding:
 
-| Prefix | Meaning | Author Action |
-|--------|---------|---------------|
-| *(no prefix)* | Required change | Must address before merge |
-| **Critical:** | Blocks merge | Security vulnerability, data loss, broken functionality |
-| **Nit:** | Minor, optional | Author may ignore — formatting, style preferences |
-| **Optional:** / **Consider:** | Suggestion | Worth considering but not required |
+- **Issue #:** [Sequential Number]
+- **Severity:** [🔥 Critical / 🔴 High / 🟡 Medium / 🔵 Low / Nit / FYI]
+- **Confidence:** [Your confidence level in this finding]
+- **File:** [Full file path]
+- **Line(s):** [Absolute line numbers in the full project files, not diff line numbers]
+- **What's Wrong:** [Description of the issue]
+- **How to Fix:** [Specific refactoring suggestion or code fix]
+
+| Severity | Meaning | Author Action |
+|----------|---------|---------------|
+| **🔥 Critical** | Blocks merge | Must address immediately (security, data loss, broken functionality) |
+| **🔴 High / 🟡 Medium** | Required change | Must address before merge |
+| **🔵 Low / Nit** | Minor, optional | Author may ignore — formatting, style preferences |
 | **FYI** | Informational only | No action needed — context for future reference |
 
 This prevents authors from treating all feedback as mandatory and wasting time on optional suggestions.
@@ -285,7 +294,7 @@ When resolving review disputes, apply this hierarchy:
 When reviewing code — whether written by you, another agent, or a human:
 
 - **Don't rubber-stamp.** "LGTM" without evidence of review helps no one.
-- **Don't soften real issues.** "This might be a minor concern" when it's a bug that will hit production is dishonest.
+- **Don't soften real issues.** "This might be a minor concern" when it's a bug that will hit production is dishonest. Be thorough, harsh, and merciless. It is better to surface a finding that later gets filtered out than to silently drop a real bug. Your goal is maximum coverage.
 - **Quantify problems when possible.** "This N+1 query will add ~50ms per item in the list" is better than "this could be slow."
 - **Push back on approaches with clear problems.** Sycophancy is a failure mode in reviews. If the implementation has issues, say so directly and propose alternatives.
 - **Accept override gracefully.** If the author has full context and disagrees, defer to their judgment. Comment on code, not people — reframe personal critiques to focus on the code itself.
