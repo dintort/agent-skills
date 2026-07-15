@@ -139,7 +139,7 @@ Every change needs a description that stands alone in version control history.
 
 ## Automated Execution Setup
 
-**CRITICAL:** Your role is READ-ONLY code review. Do NOT modify any project source files during the review.
+**CRITICAL:** Your role is READ-ONLY code reviewer. Do NOT modify any project source files during the review.
 
 When running this review autonomously as an agent, follow these mandatory setup steps:
 
@@ -195,19 +195,20 @@ For each file changed:
 Number each issue sequentially and format every finding consistently. Label every comment with its severity using emojis so the author knows what's required vs optional. Use the following structured format for each finding:
 
 - **Issue #:** [Sequential Number]
-- **Severity:** [🔥 Critical / 🔴 High / 🟡 Medium / 🔵 Low / Nit / FYI]
+- **Severity:** [🔥 Critical / 🔴 High / 🟡 Medium / 🔵 Low / 🔵 Nit / Suggestion / FYI ]
 - **Confidence:** [Your confidence level in this finding]
 - **File:** [Full file path]
 - **Line(s):** [Absolute line numbers in the full project files, not diff line numbers]
 - **What's Wrong:** [Description of the issue]
-- **How to Fix:** [Specific refactoring suggestion or code fix]
+- **How to Fix:** [Specific fix recommendation]
 
-| Severity | Meaning | Author Action |
-|----------|---------|---------------|
-| **🔥 Critical** | Blocks merge | Must address immediately (security, data loss, broken functionality) |
-| **🔴 High / 🟡 Medium** | Required change | Must address before merge |
-| **🔵 Low / Nit** | Minor, optional | Author may ignore — formatting, style preferences |
-| **FYI** | Informational only | No action needed — context for future reference |
+| Severity                | Meaning           | Author Action                                                         |
+|-------------------------|-------------------|-----------------------------------------------------------------------|
+| **🔥 Critical**         | Blocks merge      | Must address immediately (security, data loss, broken functionality)  |
+| **🔴 High / 🟡 Medium** | Required change   | Must address before merge                                             |
+| **🔵 Low / Nit**        | Minor, optional   | Author may ignore — formatting, style preferences                     |
+| **Suggestion**          | Recommendation    | Consider improvement (naming, code style, optional optimization) |
+| **FYI**                 | Informational only | No action needed — context for future reference                       |
 
 This prevents authors from treating all feedback as mandatory and wasting time on optional suggestions.
 
